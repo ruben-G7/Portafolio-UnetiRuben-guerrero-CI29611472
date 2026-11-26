@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portafolio Digital | Arquitectura del Computador — UNETI</title>
+  <style>
+    :root {
+      --bg: #06101e;
+      --surface: #0c1c32;
+      --surface-2: #122744;
+      --border: rgba(56, 189, 248, 0.22);
+      --text: #eaf4ff;
+      --muted: #a6bdd4;
+      --accent: #38bdf8;
+      --accent-2: #22d3ee;
+      --ok: #34d399;
+      --warn: #fbbf24;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 80% 0%, #113058 0%, var(--bg) 55%);
+      color: var(--text);
+      line-height: 1.62;
+    }
+
+    header.topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(6, 16, 30, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 700;
+      font-size: 0.98rem;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #03101d;
+      font-weight: 800;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      align-items: center;
+    }
+
+    nav a, button.btn {
+      text-decoration: none;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.45rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    nav a:hover, button.btn:hover {
+      border-color: var(--accent-2);
+      background: var(--surface-2);
+    }
+
+    button.btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #03101d;
+      font-weight: 700;
+      border: none;
+    }
+
+    main {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.6rem;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.38fr 0.82fr;
+      gap: 1.75rem;
+      align-items: start;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      color: var(--accent-2);
+      background: rgba(34, 211, 238, 0.12);
+      border: 1px solid rgba(34, 211, 238, 0.32);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.8rem;
+    }
+
+    h1 { font-size: 1.95rem; line-height: 1.2; margin-bottom: 0.75rem; }
+    h2 { font-size: 1.42rem; margin-bottom: 0.65rem; color: var(--accent); }
+    h3 { font-size: 1.08rem; margin: 1rem 0 0.5rem; color: var(--text); }
+    p { color: var(--muted); margin-bottom: 0.85rem; }
+
+    .date-stamp {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent-2);
+      background: rgba(18, 39, 68, 0.9);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.65rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .cover-art {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin: 1rem 0 1.2rem;
+      background: var(--surface-2);
+    }
+
+    .author-box {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.3rem;
+      text-align: center;
+      position: sticky;
+      top: 4.8rem;
+    }
+
+    .author-photo {
+      width: 136px;
+      height: 136px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      margin: 0 auto 0.85rem;
+      display: block;
+      background: #081526;
+    }
+
+    .meta-list {
+      list-style: none;
+      text-align: left;
+      font-size: 0.9rem;
+      margin-top: 0.85rem;
+    }
+
+    .meta-list li {
+      padding: 0.38rem 0;
+      border-bottom: 1px dashed rgba(166, 189, 212, 0.16);
+    }
+
+    .vn-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+      gap: 0.7rem;
+      margin-top: 0.65rem;
+    }
+
+    .vn-node {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem;
+      text-align: left;
+      color: var(--text);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .vn-node:hover, .vn-node.active {
+      border-color: var(--accent-2);
+      background: #173257;
+      transform: translateY(-2px);
+    }
+
+    .vn-detail {
+      margin-top: 0.85rem;
+      background: rgba(6, 16, 30, 0.72);
+      border-left: 4px solid var(--accent-2);
+      padding: 0.95rem 1.15rem;
+      border-radius: 8px;
+      font-size: 0.94rem;
+    }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.9rem 0 1.2rem;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.68rem 0.78rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--surface-2);
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    .eq-block {
+      margin-top: 1.2rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(56, 189, 248, 0.14);
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.9rem;
+      margin-top: 0.65rem;
+    }
+
+    .photo-slot {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem;
+      font-size: 0.88rem;
+    }
+
+    .ev-box {
+      height: 128px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #0b1e36, #132e52);
+      border: 1px dashed rgba(56, 189, 248, 0.45);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0.6rem;
+      margin-bottom: 0.55rem;
+      color: var(--accent-2);
+      font-size: 0.82rem;
+    }
+
+    .reflection-box {
+      margin-top: 1.25rem;
+      background: rgba(52, 211, 153, 0.08);
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      border-radius: 10px;
+      padding: 1.05rem 1.25rem;
+    }
+
+    .reflection-box h3 { color: var(--ok); margin-top: 0; }
+
+    .badge-ok {
+      color: var(--ok);
+      font-weight: 700;
+      font-size: 0.82rem;
+    }
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; }
+      .author-box { position: static; }
+    }
+
+    @media print {
+      header.topbar, .no-print { display: none !important; }
+      body { background: #fff; color: #000; }
+      .card, .author-box, .vn-detail, .reflection-box, .ev-box, th, td {
+        background: #fff !important;
+        color: #000 !important;
+        border-color: #999 !important;
+        box-shadow: none !important;
+      }
+      p { color: #222 !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-badge">UNETI</span>
+      <span>Arquitectura del Computador — Portafolio Digital</span>
+    </div>
+    <nav>
+      <a href="#portada">Portada</a>
+      <a href="#act-1">Práctica 1</a>
+      <a href="#act-2">Práctica 2</a>
+      <a href="#act-3">Práctica 3</a>
+      <a href="#auditoria">Auditoría y Control</a>
+      <button class="btn btn-primary no-print" onclick="window.print()">Exportar / PDF</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- PORTADA Y AUTOR -->
+    <section id="portada" class="card hero">
+      <div>
+        <span class="tag">UNIVERSIDAD NACIONAL EXPERIMENTAL DE LAS TELECOMUNICACIONES E INFORMÁTICA (UNETI)</span>
+        <h1>Portafolio Digital: Arquitectura del Computador</h1>
+        <p>
+          Compilación técnica de prácticas de laboratorio, diagnóstico de hardware, criterios de auditoría de sistemas y
+          reflexiones individuales correspondientes a la Unidad Curricular <strong>Arquitectura del Computador</strong>
+          (Laboratorio VAC-SD1).
+        </p>
+
+        <div class="cover-art">
+          <svg viewBox="0 0 800 210" width="100%" height="165" role="img" aria-label="Diagrama conceptual de arquitectura y auditoría de hardware">
+            <rect width="800" height="210" fill="#09192e" />
+            <g stroke="#1e4976" stroke-width="1" opacity="0.55">
+              <line x1="0" y1="42" x2="800" y2="42" />
+              <line x1="0" y1="84" x2="800" y2="84" />
+              <line x1="0" y1="126" x2="800" y2="126" />
+              <line x1="0" y1="168" x2="800" y2="168" />
+              <line x1="160" y1="0" x2="160" y2="210" />
+              <line x1="320" y1="0" x2="320" y2="210" />
+              <line x1="480" y1="0" x2="480" y2="210" />
+              <line x1="640" y1="0" x2="640" y2="210" />
+            </g>
+            <rect x="36" y="45" width="210" height="120" rx="10" fill="#0f2744" stroke="#38bdf8" stroke-width="2" />
+            <text x="54" y="76" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="14" font-weight="700">PROCESADOR (CPU)</text>
+            <text x="54" y="100" fill="#eaf4ff" font-family="Segoe UI, sans-serif" font-size="12">• Unidad de Control</text>
+            <text x="54" y="120" fill="#eaf4ff" font-family="Segoe UI, sans-serif" font-size="12">• ALU y Registros</text>
+            <text x="54" y="140" fill="#22d3ee" font-family="Segoe UI, sans-serif" font-size="12">• Jerarquía de Caché</text>
+
+            <line x1="246" y1="105" x2="295" y2="105" stroke="#22d3ee" stroke-width="2.5" />
+            <polygon points="295,100 305,105 295,110" fill="#22d3ee" />
+
+            <rect x="305" y="45" width="205" height="120" rx="10" fill="#0f2744" stroke="#22d3ee" stroke-width="2" />
+            <text x="323" y="76" fill="#22d3ee" font-family="Segoe UI, sans-serif" font-size="14" font-weight="700">MEMORIA Y BUSES</text>
+            <text x="323" y="100" fill="#eaf4ff" font-family="Segoe UI, sans-serif" font-size="12">• RAM Volátil / Datos</text>
+            <text x="323" y="120" fill="#eaf4ff" font-family="Segoe UI, sans-serif" font-size="12">• Direcciones y Control</text>
+            <text x="323" y="140" fill="#34d399" font-family="Segoe UI, sans-serif" font-size="12">• Almacenamiento y E/S</text>
+
+            <line x1="510" y1="105" x2="559" y2="105" stroke="#34d399" stroke-width="2.5" />
+            <polygon points="559,100 569,105 559,110" fill="#34d399" />
+
+            <rect x="569" y="45" width="195" height="120" rx="10" fill="#0f2744" stroke="#34d399" stroke-width="2" />
+            <text x="587" y="76" fill="#34d399" font-family="Segoe UI, sans-serif" font-size="14" font-weight="700">AUDITORÍA Y CONTROL</text>
+            <text x="587" y="100" fill="#eaf4ff" font-family="Segoe UI, sans-serif" font-size="12">• Telemetría y Sensores</text>
+            <text x="587" y="120" fill="#eaf4ff" font-family="Segoe UI, sans-serif" font-size="12">• Riesgo Térmico / ESD</text>
+            <text x="587" y="140" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="12">• Trazabilidad ISO / CU</text>
+          </svg>
+        </div>
+
+        <h3>Esquema Interactivo del Modelo de Von Neumann</h3>
+        <p style="font-size: 0.9rem;">Selecciona cada componente para revisar su operación y enfoque de auditoría:</p>
+        <div class="vn-grid">
+          <button class="vn-node active" onclick="showVN('cpu', this)">
+            <strong>CPU (UC + ALU)</strong><br /><small>Secuencia y cálculo</small>
+          </button>
+          <button class="vn-node" onclick="showVN('mem', this)">
+            <strong>Memoria Principal</strong><br /><small>RAM y jerarquía</small>
+          </button>
+          <button class="vn-node" onclick="showVN('bus', this)">
+            <strong>Buses del Sistema</strong><br /><small>Datos, dir. y control</small>
+          </button>
+          <button class="vn-node" onclick="showVN('io', this)">
+            <strong>E/S y Almacenamiento</strong><br /><small>Periféricos y disco</small>
+          </button>
+        </div>
+        <div id="vn-detail" class="vn-detail">
+          <strong>CPU (Unidad de Control + ALU):</strong> La Unidad de Control busca, decodifica y secuencia las instrucciones;
+          la ALU ejecuta cálculos aritméticos y operaciones lógicas operando con registros y banderas de estado.
+          <em>Auditoría:</em> verificar temperaturas bajo carga, frecuencia sostenida y ausencia de <em>thermal throttling</em>.
+        </div>
+      </div>
+
+      <aside class="author-box">
+        <svg class="author-photo" viewBox="0 0 140 140" role="img" aria-label="Identificación formal de Ruben Eduardo Guerrero Oviedo">
+          <rect width="140" height="140" fill="#102744" />
+          <circle cx="70" cy="52" r="23" fill="#38bdf8" opacity="0.85" />
+          <path d="M26,124 C28,92 50,80 70,80 C90,80 112,92 114,124 Z" fill="#22d3ee" opacity="0.75" />
+          <text x="70" y="133" text-anchor="middle" fill="#eaf4ff" font-family="Segoe UI, sans-serif" font-size="11" font-weight="700">CI 29.611.472</text>
+        </svg>
+        <h3>Ruben Eduardo Guerrero Oviedo</h3>
+        <p style="font-size: 0.88rem; margin-bottom: 0.4rem;">
+          Estudiante de Ingeniería en Informática y profesional en soporte, operaciones y auditoría de sistemas, con
+          enfoque en diagnóstico técnico, integridad de datos y control preventivo.
+        </p>
+        <p style="font-size: 0.78rem; color: var(--accent-2); margin-bottom: 0.5rem;">
+          *Puedes reemplazar el ícono superior por tu foto formal (<code>foto-formal.jpg</code>) antes de publicar.*
+        </p>
+        <ul class="meta-list">
+          <li><strong>Institución:</strong> UNETI</li>
+          <li><strong>Unidad Curricular:</strong> Arquitectura del Computador</li>
+          <li><strong>Autor:</strong> Ruben Eduardo Guerrero Oviedo</li>
+          <li><strong>Cédula de Identidad:</strong> 29.611.472</li>
+          <li><strong>Sección:</strong> S13B</li>
+          <li><strong>Fecha de creación:</strong> 26/11/2026</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- ACTIVIDAD 1 -->
+    <section id="act-1" class="card">
+      <span class="tag">PRÁCTICA DE LABORATORIO 1</span>
+      <h2>1. Futuro de la Ingeniería en Informática y la Arquitectura Computacional</h2>
+      <span class="date-stamp">Fecha de creación / publicación: 26/11/2026</span>
+
+      <p>
+        Durante décadas, la arquitectura de computadoras creció apoyada en la miniaturización de transistores en silicio
+        y en el modelo clásico de programa almacenado, donde la unidad de procesamiento y la memoria principal se
+        comunican a través de canales compartidos. A medida que los procesos físicos de escalado enfrentan límites
+        térmicos, fugas de corriente y latencias entre procesador y memoria, el diseño de sistemas exige soluciones más
+        especializadas y eficientes por vatio consumido.
+      </p>
+      <p>
+        El auge de la inteligencia artificial, el procesamiento masivo de datos y las cargas concurrentes ha acelerado
+        la adopción de arquitecturas heterogéneas que combinan núcleos de propósito general (CPU) con aceleradores
+        especializados (GPU, NPU), memoria de alto ancho de banda y jerarquías de caché más sofisticadas. A la par,
+        líneas como la computación cuántica y los enfoques neuromórficos abren nuevas posibilidades para problemas de
+        optimización, simulación o procesamiento de baja potencia.
+      </p>
+      <p>
+        En este contexto, el rol de la ingeniería en informática y la auditoría técnica es evitar el entusiasmo sin
+        criterio: evaluar cada arquitectura según la naturaleza real de la carga de trabajo, vigilar la jerarquía de
+        memoria y el consumo energético, y planificar controles de seguridad —incluida la evolución criptográfica— para
+        garantizar sistemas confiables y auditables.
+      </p>
+
+      <div class="reflection-box">
+        <h3>Reflexión de Aprendizaje Individual — Práctica 1</h3>
+        <p style="margin-bottom: 0.45rem;">
+          <strong>Comprensión técnica:</strong> Comprender los límites del modelo clásico y la jerarquía de memoria permite
+          entender por qué la arquitectura moderna prioriza especialización, paralelismo y eficiencia energética.
+        </p>
+        <p style="margin: 0;">
+          <strong>Aplicación práctica y de auditoría:</strong> Ayuda a diagnosticar si una lentitud proviene de diseño de
+          hardware, saturación de memoria/E/S o software, y a tomar decisiones técnicas fundamentadas en el trabajo.
+        </p>
+      </div>
+    </section>
+
+    <!-- ACTIVIDAD 2 -->
+    <section id="act-2" class="card">
+      <span class="tag">PRÁCTICA DE LABORATORIO 2</span>
+      <h2>2. Identificación, Diagnóstico y Auditoría de Procesadores en 3 Equipos</h2>
+      <span class="date-stamp">Fecha de creación / publicación: 26/11/2026</span>
+
+      <p>
+        Evaluación estructurada de tres equipos representativos (portátil, estación de escritorio y chasis compacto)
+        combinando verificación del sistema/utilidades de diagnóstico, revisión física de arquitectura y medidas de
+        prevención y mantenimiento.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Equipo</th>
+              <th>Tipo / Entorno</th>
+              <th>Procesador y Arquitectura</th>
+              <th>Zócalo / Memoria y Caché</th>
+              <th>Hallazgos y Controles Recomendados</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Equipo 01</strong></td>
+              <td>Computador Portátil (Entorno móvil / operativo)</td>
+              <td>Procesador x86-64 multinúcleo (familia Core i5 / equivalente)</td>
+              <td>Integrado en placa (BGA) / Caché multinivel L1-L3</td>
+              <td>Mantener rejillas despejadas, evitar superficies blandas, controlar temperatura y usar regulador/UPS.</td>
+            </tr>
+            <tr>
+              <td><strong>Equipo 02</strong></td>
+              <td>PC de Escritorio Torre (Trabajo / diagnóstico)</td>
+              <td>Procesador x86-64 alto rendimiento (familia Core i7 / equivalente)</td>
+              <td>Zócalo de escritorio (LGA) / Caché L3 amplia y disipación activa</td>
+              <td>Limpiar polvo en disipador y ventiladores, renovar pasta térmica según estado y proteger fuente/VRM.</td>
+            </tr>
+            <tr>
+              <td><strong>Equipo 03</strong></td>
+              <td>PC de Escritorio Compacto (Ofimática / soporte)</td>
+              <td>Procesador x86-64 doble núcleo (arquitectura Core 2 / equivalente)</td>
+              <td>Zócalo LGA 775 / Caché L2 y bus frontal (FSB)</td>
+              <td>Auditar flujo de aire en espacio reducido, verificar estado de disco/RAM y adecuar cargas de trabajo.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Recomendaciones Generales de Uso, Seguridad y Mantenimiento</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Eje de Control</th>
+              <th>Riesgo Identificado</th>
+              <th>Acción Preventiva / Auditoría</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Gestión térmica y pasta disipadora</strong></td>
+              <td>Acumulación de polvo y pasta seca que provocan sobrecalentamiento o <em>thermal throttling</em>.</td>
+              <td>Limpieza periódica con aire/limpieza técnica y reemplazo de pasta térmica cuando corresponda.</td>
+            </tr>
+            <tr>
+              <td><strong>Ventilación y ubicación</strong></td>
+              <td>Obstrucción de flujo de aire en gabinetes o bases de portátiles.</td>
+              <td>Garantizar ventilación libre y superficies firmes; verificar lecturas de sensores térmicos.</td>
+            </tr>
+            <tr>
+              <td><strong>Estabilidad eléctrica y ESD</strong></td>
+              <td>Picos/caídas de tensión o descargas electrostáticas durante manipulación.</td>
+              <td>Usar regulador de voltaje o UPS, descargar estática antes de abrir equipos y evitar procesos parásitos.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Registro Fotográfico de Evidencia (3 Tomas por Equipo)</h3>
+      <p style="font-size: 0.88rem;">
+        Estructura lista con 3 tomas por equipo (identificación externa, inspección interna/física y verificación en
+        sistema):
+      </p>
+
+      <div class="eq-block">
+        <strong>Equipo 01 — Portátil</strong> <span class="badge-ok">[Evidencia estructurada]</span>
+        <div class="photo-grid">
+          <div class="photo-slot">
+            <div class="ev-box"><strong>EQ01 — Toma 1</strong><span>Vista externa e identificación del equipo</span></div>
+            Verificación de chasis, teclado, puertos y estado general externo.
+          </div>
+          <div class="photo-slot">
+            <div class="ev-box"><strong>EQ01 — Toma 2</strong><span>Inspección interna y manipulación segura</span></div>
+            Revisión de compartimientos, ventilación, batería y sujeción de componentes.
+          </div>
+          <div class="photo-slot">
+            <div class="ev-box"><strong>EQ01 — Toma 3</strong><span>Diagnóstico en sistema operativo</span></div>
+            Validación de modelo de CPU, arquitectura, memoria y estabilidad del sistema.
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <strong>Equipo 02 — Escritorio Torre</strong> <span class="badge-ok">[Evidencia estructurada]</span>
+        <div class="photo-grid">
+          <div class="photo-slot">
+            <div class="ev-box"><strong>EQ02 — Toma 1</strong><span>Identificación externa del gabinete</span></div>
+            Inspección del chasis, conectores frontales/traseros y etiquetado.
+          </div>
+          <div class="photo-slot">
+            <div class="ev-box"><strong>EQ02 — Toma 2</strong><span>Revisión interna y disipación</span></div>
+            Evaluación de placa base, cooler de CPU, cableado interno y acumulación de polvo.
+          </div>
+          <div class="photo-slot">
+            <div class="ev-box"><strong>EQ02 — Toma 3</strong><span>Verificación técnica en sistema</span></div>
+            Comprobación de parámetros del procesador, núcleos/hilos y estado operativo.
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-block">
+        <strong>Equipo 03 — Escritorio Compacto</strong> <span class="badge-ok">[Evidencia estructurada]</span>
+        <div class="photo-grid">
+          <div class="photo-slot">
+            <div class="ev-box"><strong>EQ03 — Toma 1</strong><span>Vista externa y formato compacto</span></div>
+            Registro del chasis compacto, ventilación lateral y conexiones periféricas.
+          </div>
+          <div class="photo-slot">
+            <div class="ev-box"><strong>EQ03 — Toma 2</strong><span>Apertura y distribución interna</span></div>
+            Revisión del arreglo compacto de componentes, disipador y estado físico.
+          </div>
+          <div class="photo-slot">
+            <div class="ev-box"><strong>EQ03 — Toma 3</strong><span>Diagnóstico y validación de CPU</span></div>
+            Verificación de arquitectura, zócalo y desempeño en entorno de pruebas.
+          </div>
+        </div>
+      </div>
+
+      <div class="reflection-box">
+        <h3>Reflexión de Aprendizaje Individual — Práctica 2</h3>
+        <p style="margin-bottom: 0.45rem;">
+          <strong>Comprensión técnica:</strong> Comparar equipos de distinto formato y generación deja claro cómo
+          cambian el zócalo, la caché, el consumo y la disipación térmica, y por qué la revisión física complementa al
+          diagnóstico por software.
+        </p>
+        <p style="margin: 0;">
+          <strong>Aplicación práctica y de auditoría:</strong> En soporte y auditoría de activos, documentar bien cada
+          equipo y aplicar mantenimiento preventivo reduce fallas por calor, evita incompatibilidades y mejora la vida
+          útil de la infraestructura.
+        </p>
+      </div>
+    </section>
+
+    <!-- ACTIVIDAD 3 -->
+    <section id="act-3" class="card">
+      <span class="tag">PRÁCTICA DE LABORATORIO 3</span>
+      <h2>3. Herramientas de Hardware y Software para Diagnóstico y Auditoría</h2>
+      <span class="date-stamp">Fecha de creación / publicación: 26/11/2026</span>
+
+      <p>
+        Clasificación y aplicación práctica de herramientas físicas y utilidades de software utilizadas en arquitectura
+        del computador para prevención, medición eléctrica, mantenimiento y verificación de estado.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Herramienta</th>
+              <th>Clasificación</th>
+              <th>Función y Aplicación en Diagnóstico / Auditoría</th>
+              <th>Evidencia / Referencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Pulsera antiestática</strong></td>
+              <td>Hardware (Prevención ESD)</td>
+              <td>Conecta al operador a tierra para disipar descargas electrostáticas y proteger CPU, RAM y placa base.</td>
+              <td><div class="ev-box" style="height:64px; margin:0;">Control ESD</div></td>
+            </tr>
+            <tr>
+              <td><strong>Multímetro digital</strong></td>
+              <td>Hardware (Medición eléctrica)</td>
+              <td>Mide voltajes de fuente, continuidad y carga de batería CMOS para detectar fallas de energía.</td>
+              <td><div class="ev-box" style="height:64px; margin:0;">Medición V / Ω</div></td>
+            </tr>
+            <tr>
+              <td><strong>Destornilladores de precisión</strong></td>
+              <td>Hardware (Ensamblaje / apertura)</td>
+              <td>Permiten intervenir gabinetes, disipadores y unidades de forma segura sin dañar tornillería ni placas.</td>
+              <td><div class="ev-box" style="height:64px; margin:0;">Intervención mecánica</div></td>
+            </tr>
+            <tr>
+              <td><strong>Soplador / Limpieza técnica</strong></td>
+              <td>Hardware (Mantenimiento térmico)</td>
+              <td>Retira polvo de ventiladores, rejillas y disipadores para mantener temperaturas estables.</td>
+              <td><div class="ev-box" style="height:64px; margin:0;">Flujo térmico</div></td>
+            </tr>
+            <tr>
+              <td><strong>CPU-Z</strong></td>
+              <td>Software (Inventario de CPU/RAM)</td>
+              <td>Identifica modelo, arquitectura, núcleos, caché, zócalo, placa base y memoria instalada.</td>
+              <td><div class="ev-box" style="height:64px; margin:0;">Ficha CPU / RAM</div></td>
+            </tr>
+            <tr>
+              <td><strong>HWMonitor</strong></td>
+              <td>Software (Sensores y telemetría)</td>
+              <td>Registra temperaturas, voltajes y RPM en tiempo real para detectar sobrecalentamiento o caídas.</td>
+              <td><div class="ev-box" style="height:64px; margin:0;">Sensores en vivo</div></td>
+            </tr>
+            <tr>
+              <td><strong>CrystalDiskInfo</strong></td>
+              <td>Software (Almacenamiento S.M.A.R.T.)</td>
+              <td>Consulta atributos S.M.A.R.T., salud, temperatura y horas de uso en HDD, SSD y NVMe.</td>
+              <td><div class="ev-box" style="height:64px; margin:0;">Salud S.M.A.R.T.</div></td>
+            </tr>
+            <tr>
+              <td><strong>MemTest86</strong></td>
+              <td>Software (Pruebas de memoria)</td>
+              <td>Ejecuta pruebas intensivas de lectura/escritura sobre la RAM para detectar errores de celdas o direccionamiento.</td>
+              <td><div class="ev-box" style="height:64px; margin:0;">Test de RAM</div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="reflection-box">
+        <h3>Reflexión de Aprendizaje Individual — Práctica 3</h3>
+        <p style="margin-bottom: 0.45rem;">
+          <strong>Comprensión técnica:</strong> Distinguir entre herramientas físicas de prevención/medición y software de
+          diagnóstico permite elegir la prueba adecuada según el síntoma (eléctrico, térmico, de memoria o de disco).
+        </p>
+        <p style="margin: 0;">
+          <strong>Aplicación práctica y de auditoría:</strong> Trabajar con un conjunto ordenado de herramientas reduce
+          errores humanos, protege el hardware y aporta evidencia objetiva en revisiones técnicas y auditorías.
+        </p>
+      </div>
+    </section>
+
+    <!-- AUDITORÍA Y CONTROL DOCUMENTAL -->
+    <section id="auditoria" class="card">
+      <span class="tag">TRAZABILIDAD Y AUDITORÍA</span>
+      <h2>Caso de Uso de Auditoría y Control de Versiones</h2>
+      <p>
+        <strong>Caso de Uso (CU-001 — Auditar Arquitectura y Estado del Equipo):</strong> Ejecutado por <strong>Ruben
+        Eduardo Guerrero Oviedo</strong> (C.I. <strong>29.611.472</strong>, Sección <strong>S13B</strong>). Con el
+        equipo encendido y alimentación estable, se verifica el arranque, se inspecciona la arquitectura y sensores, se
+        registran hallazgos y recomendaciones, y se documenta cada práctica con su fecha.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Versión</th>
+              <th>Fecha</th>
+              <th>Descripción del Cambio</th>
+              <th>Responsable</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>v1.0</strong></td>
+              <td>26/11/2026</td>
+              <td>Versión integrada del portafolio con portada UNETI, datos del autor, 3 prácticas fechadas, esquema interactivo y reflexiones individuales.</td>
+              <td>Ruben Eduardo Guerrero Oviedo (C.I. 29.611.472 — S13B)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const vnDetails = {
+      cpu: "<strong>CPU (Unidad de Control + ALU):</strong> La Unidad de Control busca, decodifica y secuencia las instrucciones; la ALU ejecuta cálculos aritméticos y operaciones lógicas operando con registros y banderas de estado. <em>Auditoría:</em> verificar temperaturas bajo carga, frecuencia sostenida y ausencia de <em>thermal throttling</em>.",
+      mem: "<strong>Memoria Principal (RAM):</strong> Almacena instrucciones y datos activos de forma volátil dentro de la jerarquía de memoria. <em>Auditoría:</em> validar capacidad, módulos instalados, pruebas de integridad y políticas de respaldo ante pérdida de energía.",
+      bus: "<strong>Buses del Sistema:</strong> Rutas de comunicación para transportar datos, direcciones y señales de control entre componentes. <em>Auditoría:</em> revisar anchos de banda, compatibilidad de plataforma y conexiones físicas firmes.",
+      io: "<strong>E/S y Almacenamiento:</strong> Dispositivos de entrada/salida, redes y unidades persistentes (HDD/SSD/NVMe). <em>Auditoría:</em> inspeccionar atributos S.M.A.R.T., estado físico de puertos y respaldo oportuno de información."
+    };
+
+    function showVN(key, btn) {
+      document.getElementById("vn-detail").innerHTML = vnDetails[key];
+      document.querySelectorAll(".vn-node").forEach(el => el.classList.remove("active"));
+      btn.classList.add("active");
+    }
+  </script>
+</body>
+</html>
